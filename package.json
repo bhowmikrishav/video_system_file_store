@@ -1,0 +1,30 @@
+{
+  "name": "video_system_file_store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rishavbhowmik/video_system_file_store.git"
+  },
+  "author": "Rishav Bhowmik",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/rishavbhowmik/video_system_file_store/issues"
+  },
+  "homepage": "https://github.com/rishavbhowmik/video_system_file_store#readme",
+  "dependencies": {
+    "cassandra-driver": "^4.6.1",
+    "fastify": "^3.7.0",
+    "fastify-cors": "^4.1.0",
+    "fastify-formbody": "^5.0.0",
+    "fastify-multipart": "^3.3.0",
+    "jimp": "^0.16.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.2"
+  }
+}
