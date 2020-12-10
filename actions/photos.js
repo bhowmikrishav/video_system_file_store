@@ -16,3 +16,5 @@ class Photos extends Keyspace{
         return result
     }
 }
+
+module.exports = {Photos}

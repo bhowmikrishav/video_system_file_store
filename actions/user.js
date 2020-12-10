@@ -29,6 +29,9 @@ class User extends DB{
         return {user_token}
     }
     */
+   static verify(user_token){
+       return jwt.verify(user_token, private_manifest.USER_TOKEN_KEY)
+   }
 }
 
 module.exports = {User}

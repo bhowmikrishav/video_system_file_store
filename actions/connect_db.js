@@ -26,16 +26,19 @@ const cassandra_client = new cassandra.Client({
     credentials: { username: 'cassandra', password: 'cassandra' },
     keyspace: 'video_store'
   });
+
+cassandra_client.on('error', (err)=>console.log(err))
   
 class Keyspace{
     static client(){return cassandra_client}
     static mk_unique_id(){
-        return `${os.hostname()}|${os.uptime()}|${process.pid}|${mongodb.ObjectId().toString()}`
+        return `${cassandra.types.TimeUuid.now()}|${process.pid}`;
+        //return `${os.hostname()}|${os.uptime()}|${process.pid}|${mongodb.ObjectId().toString()}`
     }
 }
 Keyspace.COMMANDS = {};
 Keyspace.COMMANDS['INSERT_PUBLIC_OBJECT'] = `
-    INSERT INTO public_objects ( user_id, _id, data) VALUES ( ?, ?, ?)
+    INSERT INTO public_objects ( user_id, id, data) VALUES ( ?, ?, ?)
 `;
 
 
