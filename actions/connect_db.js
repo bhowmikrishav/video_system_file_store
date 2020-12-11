@@ -20,12 +20,7 @@ DB.mongodb_client.connect()
 
 const cassandra = require('cassandra-driver');
  
-const cassandra_client = new cassandra.Client({
-    contactPoints:['127.0.0.1:9042'],
-    localDataCenter:"datacenter1",
-    credentials: { username: 'cassandra', password: 'cassandra' },
-    keyspace: 'video_store'
-  });
+const cassandra_client = new cassandra.Client(require('../manifest/cassandra_config.json'));
 
 cassandra_client.on('error', (err)=>console.log(err))
   

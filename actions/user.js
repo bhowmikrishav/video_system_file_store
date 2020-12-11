@@ -2,6 +2,7 @@
 const {DB} = require('./connect_db')
 const jwt = require('jsonwebtoken')
 const private_manifest = require('../manifest/private.json')
+const mongodb = require('mongodb')
 
 class User extends DB{
     /*
@@ -29,9 +30,23 @@ class User extends DB{
         return {user_token}
     }
     */
-   static verify(user_token){
-       return jwt.verify(user_token, private_manifest.USER_TOKEN_KEY)
-   }
+    static verify(user_token){
+        return jwt.verify(user_token, private_manifest.USER_TOKEN_KEY)
+    }
+    static async update_user_set(user_token, _set){
+        const user = User.verify(user_token)
+        const update_set = {
+            "meta.profile_pic":_set.profile_pic,
+        }
+        console.log({_id : user.user_id});
+        const user_collection = (await User.mongodb_video_system()).collection('users')
+        var result = await user_collection.findOneAndUpdate(
+            {_id : mongodb.ObjectId(user.user_id)},
+            {$set:update_set}
+        )
+            
+        return result
+    }
 }
 
 module.exports = {User}
