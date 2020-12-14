@@ -42,7 +42,8 @@ class User extends DB{
         const user_collection = (await User.mongodb_video_system()).collection('users')
         var result = await user_collection.findOneAndUpdate(
             {_id : mongodb.ObjectId(user.user_id)},
-            {$set:update_set}
+            {$set:update_set},
+            { returnOriginal: false }
         )
             
         return result
