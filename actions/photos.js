@@ -17,7 +17,8 @@ class Photos extends Keyspace{
             )
         const public_token_data = {
             access:'*',
-            object_id:`${unqiue_id}`
+            object_id:`${unqiue_id}`,
+            mime_type:'image/jpeg'
         }
         const public_token = jwt.sign(public_token_data, private_manifest.OBJECT_TOKEN_KEY)
         const private_token_data = {

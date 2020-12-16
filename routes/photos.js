@@ -19,14 +19,17 @@ module.exports = [
                 /*console.log(
                     {img100x100, img250x250, img500x500}
                 );*/
-                const result = await User.update_user_set(fields.user_token.value, {
-                    profile_pic:{
-                        "100x100":img100x100.public_token,
-                        "250x250":img250x250.public_token,
-                        "500x500":img500x500.public_token
+                const result = await User.update_user_set(
+                    fields.user_token.value,
+                    {
+                        profile_pic:{
+                            "100x100":img100x100.public_token,
+                            "250x250":img250x250.public_token,
+                            "500x500":img500x500.public_token
+                        }
                     }
-                })
-                return result.value
+                )
+                return result.value?result.value.meta:null
             }catch(e){
                 reply.code(504)
                 console.log(e);

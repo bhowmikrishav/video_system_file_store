@@ -35,6 +35,9 @@ Keyspace.COMMANDS = {};
 Keyspace.COMMANDS['INSERT_PUBLIC_OBJECT'] = `
     INSERT INTO public_objects ( user_id, id, data) VALUES ( ?, ?, ?)
 `;
+Keyspace.COMMANDS['GET_PUBLIC_OBJECT'] = `
+    SELECT * FROM public_objects WHERE id = ?
+`;
 
 
 module.exports = {DB, Keyspace}
