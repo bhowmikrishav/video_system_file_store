@@ -18,11 +18,13 @@
   },
   "homepage": "https://github.com/rishavbhowmik/video_system_file_store#readme",
   "dependencies": {
+    "bson": "^4.2.2",
     "cassandra-driver": "^4.6.1",
     "fastify": "^3.7.0",
     "fastify-cors": "^4.1.0",
     "fastify-formbody": "^5.0.0",
     "fastify-multipart": "^3.3.0",
+    "fastify-websocket": "^2.0.11",
     "jimp": "^0.16.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2"
