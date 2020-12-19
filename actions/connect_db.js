@@ -38,6 +38,13 @@ Keyspace.COMMANDS['INSERT_PUBLIC_OBJECT'] = `
 Keyspace.COMMANDS['GET_PUBLIC_OBJECT'] = `
     SELECT * FROM public_objects WHERE id = ?
 `;
+Keyspace.COMMANDS['DELETE_PUBLIC_OBJECT'] = (object_ids)=>{
+    const list = object_ids.map((v)=>{return `'${v}'`}).join(',')
+    return `
+        DELETE FROM public_objects WHERE id IN (${list})
+    `
+}
+
 
 
 module.exports = {DB, Keyspace}
