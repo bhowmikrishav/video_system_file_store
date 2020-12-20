@@ -5,20 +5,30 @@ const mongodb = require('mongodb')
 
 module.exports = (connection, req) => {
     var shut_down_function = async ()=>{try{connection.socket.close()}catch{}}
+    var file_manifest, video_manifest;
     connection.socket.on('message', async message => {
         try{
             const data = BSON.deserialize(message)
             if(data.type === 'init'){
                 const user = User.verify(data.data.user_token)
-                //console.log(data.data);
-                file_manifest = {
-                        user_id : user.user_id,
-                        name : data.data.name,
-                        size : data.data.size,
-                        mime_type : data.data.mime_type,
-                        upload_size : 0,
-                        upload_end : false,
+                video_manifest = {
+                    title: data.data.title?data.data.title:data.data.name,
+                    upload_time: mongodb.Long(Date.now()),
+                    upload_id: null,
+                    stream_manifest: {
+                        "144": null,
+                        "360": null,
+                        "720": null
                     }
+                }
+                file_manifest = {
+                    user_id: user.user_id,
+                    name: data.data.name,
+                    size: data.data.size,
+                    mime_type: data.data.mime_type,
+                    upload_size: 0,
+                    upload_end: false,
+                }
                 const db = await DB.mongodb_video_system()
                 const result = await db.collection('video_uploads').insertOne(
                     Object.assign(
@@ -32,6 +42,7 @@ module.exports = (connection, req) => {
                     )
                 )
                 file_manifest._id = result.insertedId.toString()
+                video_manifest.upload_id = result.insertedId
                 shut_down_function = async ()=>{
                     try{
                         connection.socket.close()
@@ -88,14 +99,17 @@ module.exports = (connection, req) => {
                             }
                         )
                         //console.log(update.result);
-                        if(update.result.n)
-                            file_manifest.upload_size += Number(data.data.buffer.length)
+                        if(update.result.n) file_manifest.upload_size += Number(data.data.buffer.length)
+                        if(file_manifest.upload_size >= file_manifest.size) {
+                            //add video to video collections
+                            db.collection('videos').insertOne(video_manifest)
+                            file_manifest.upload_end = true
+                        }
                     }catch(e){
                         console.log(e);
                     }
                     //update_manifest
                     //console.log(file_manifest);
-                    if(file_manifest.upload_size >= file_manifest.size) file_manifest.upload_end = true
                     connection.socket.send(new Uint8Array(BSON.serialize({type:'update_manifest', data:{file_manifest}})))
                 }
             }
