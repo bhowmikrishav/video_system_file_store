@@ -13,7 +13,7 @@ module.exports = (connection, req) => {
                 const user = User.verify(data.data.user_token)
                 video_manifest = {
                     title: data.data.title?data.data.title:data.data.name,
-                    upload_time: mongodb.Long(Date.now()),
+                    upload_time: Date.now(),
                     upload_id: null,
                     stream_manifest: {
                         "144": null,
@@ -35,8 +35,8 @@ module.exports = (connection, req) => {
                         {},
                         file_manifest,
                         {
-                            size : mongodb.Long(file_manifest.size),
-                            upload_size : mongodb.Long(file_manifest.upload_size),
+                            size : file_manifest.size,
+                            upload_size : file_manifest.upload_size,
                             chunks : []
                         }
                     )
