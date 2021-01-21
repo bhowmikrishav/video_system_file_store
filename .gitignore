@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # manifest folder
-manifest/
+manifest/*
