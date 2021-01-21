@@ -15,6 +15,7 @@ module.exports = (connection, req) => {
                     title: data.data.title?data.data.title:data.data.name,
                     upload_time: Date.now(),
                     upload_id: null,
+                    user_id: user.user_id,
                     stream_manifest: {
                         "144": null,
                         "360": null,
